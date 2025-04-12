@@ -1,9 +1,4 @@
-﻿using Carter;
-using Catalog.API.Models;
-using Mapster;
-using MediatR;
-
-namespace Catalog.API.Products.GetProductByCategory
+﻿namespace Catalog.API.Products.GetProductByCategory
 {
     //public record GetProductByCategoryRequest();
 
