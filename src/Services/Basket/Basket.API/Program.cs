@@ -1,4 +1,5 @@
 using BuildingBlocks.Exceptions.Handler;
+using Discount.Grpc;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
@@ -6,6 +7,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
+
+//Application Services
+
 builder.Services.AddCarter();
 var assembly = typeof(Program).Assembly;
 builder.Services.AddMediatR(config =>
@@ -19,6 +23,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddValidatorsFromAssembly(assembly);
 
+//Data Service 
 var basketDb = builder.Configuration.GetConnectionString("Database");
 builder.Services.AddMarten(opts =>
 {
@@ -35,6 +40,22 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = redisDb!;
 });
 
+//Grpc Services
+builder.Services.AddGrpcClient<DiscountProtoService.DiscountProtoServiceClient>(option =>
+{
+    option.Address = new Uri(builder.Configuration["GrpcSettings:DiscountUrl"]!);
+})
+.ConfigurePrimaryHttpMessageHandler(() =>
+{
+    var handler = new HttpClientHandler
+    {
+        ServerCertificateCustomValidationCallback =
+        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
+    };
+    return handler;
+});
+
+//Cross-Cutting Services
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 builder.Services.AddHealthChecks()
     .AddNpgSql(basketDb!)
