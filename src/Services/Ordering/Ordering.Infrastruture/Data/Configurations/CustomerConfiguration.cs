@@ -1,5 +1,5 @@
 ﻿
-namespace Ordering.Infrastruture.Data.Configurations
+namespace Ordering.Infrastructure.Data.Configurations
 {
     public class CustomerConfiguration : IEntityTypeConfiguration<Customer>
     {
@@ -14,7 +14,7 @@ namespace Ordering.Infrastruture.Data.Configurations
 
             builder.Property(c => c.Email).HasMaxLength(255);
 
-            builder.Property(c => c.Email).IsUnicode();
+            builder.HasIndex(c => c.Email).IsUnique();
 
         }
     }

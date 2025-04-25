@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Ordering.Infrastruture.Data
+namespace Ordering.Infrastructure.Data
 {
     public class ApplicationDbContext : DbContext
     {

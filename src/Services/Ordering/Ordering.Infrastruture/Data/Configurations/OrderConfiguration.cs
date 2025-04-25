@@ -1,4 +1,4 @@
-﻿namespace Ordering.Infrastruture.Data.Configurations
+﻿namespace Ordering.Infrastructure.Data.Configurations
 {
     public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
