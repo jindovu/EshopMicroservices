@@ -1,4 +1,5 @@
-﻿using Ordering.Infrastructure.Intercepters;
+﻿using Ordering.Application.Data;
+using Ordering.Infrastructure.Intercepters;
 
 namespace Ordering.Infrastructure
 {
@@ -10,13 +11,18 @@ namespace Ordering.Infrastructure
             var connectionString = configuration.GetConnectionString("Database");
 
             //Add services to the container.
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddScoped<ISaveChangesInterceptor, AuditableEntityIntercepter>();
+            services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsIntercepter>();
+
+            services.AddDbContext<ApplicationDbContext>((sp, options) =>
             {
-                options.AddInterceptors(new AuditableEntityIntercepter());
+                options.AddInterceptors(sp.GetService<ISaveChangesInterceptor>());
                 options.UseSqlServer(connectionString);
             });
 
             //services
+            services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
+
             return services;
         }
     }
