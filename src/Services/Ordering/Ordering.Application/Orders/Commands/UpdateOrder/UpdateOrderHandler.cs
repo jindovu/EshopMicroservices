@@ -28,7 +28,7 @@
             var billingDto = orderDto.BillingAddress;
             var updateShippingAddress = Address.Of(shippingDto.FirstName, shippingDto.LastName, shippingDto.EmailAddress, shippingDto.AddressLine, shippingDto.Country, shippingDto.State, shippingDto.ZipCode);
             var updateBillingAddress = Address.Of(billingDto.FirstName, billingDto.LastName, billingDto.EmailAddress, billingDto.AddressLine, billingDto.Country, billingDto.State, billingDto.ZipCode);
-            var updatePayment = Payment.Of(orderDto.Payment.CardName, orderDto.Payment.CardNumber, orderDto.Payment.Expiration, orderDto.Payment.CVV, orderDto.Payment.PaymentMethod);
+            var updatePayment = Payment.Of(orderDto.Payment.CardName, orderDto.Payment.CardNumber, orderDto.Payment.Expiration, orderDto.Payment.Cvv, orderDto.Payment.PaymentMethod);
 
             order.Update(
                 orderName: OrderName.Of(orderDto.OrderName),
